@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired
 '''
 Red underlines? Install the required packages first: 
 Open the Terminal in PyCharm (bottom left). 
@@ -16,15 +17,27 @@ This will install the packages from requirements.txt for this project.
 
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = "my secret key"
+class Form(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Log In")
 
 @app.route("/")
 def home():
     return render_template('index.html')
 
-@app.route("/login")
+@app.route("/login",methods = ['GET','POST'])
 def login():
-    return render_template('login.html')
+    email = None
+    submit = None
+    password = None
+    form = Form()
+    if form.validate_on_submit():
+        email = form.email.data
+        form.email.data = ''
+    return render_template('login.html', email=email,submit = submit, password = password,form=form)
+
 
 
 @app.errorhandler(404)
