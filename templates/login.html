@@ -20,7 +20,10 @@
 					<br/>
 					{{ form.password.label }}
 					<br/>
-					{{ form.password() }}
+					{{ form.password(size=30) }}
+					{% for error in form.password.errors %}
+        				<li>{{ error }}</li>
+    				{% endfor %}
 					<br/>
 					{{ form.submit }}
 				</form>

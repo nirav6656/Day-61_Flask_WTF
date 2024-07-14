@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, IntegerField
 from wtforms.validators import DataRequired
+from wtforms.validators import ValidationError
 '''
 Red underlines? Install the required packages first: 
 Open the Terminal in PyCharm (bottom left). 
@@ -18,10 +19,18 @@ This will install the packages from requirements.txt for this project.
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "my secret key"
+
+def is_8(form, field):
+    if len(field.data) < 8:
+        raise ValidationError('Must be 8')
 class Form(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[is_8])
     submit = SubmitField("Log In")
+
+
+
+
 
 @app.route("/")
 def home():
