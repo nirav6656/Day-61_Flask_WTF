@@ -43,8 +43,11 @@ def login():
     password = None
     form = Form()
     if form.validate_on_submit():
+        
         email = form.email.data
         form.email.data = ''
+        return render_template('success.html')
+
     return render_template('login.html', email=email,submit = submit, password = password,form=form)
 
 
