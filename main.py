@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-
+from flask_wtf import FlaskForm
+from wtforms import StringField
 '''
 Red underlines? Install the required packages first: 
 Open the Terminal in PyCharm (bottom left). 
@@ -21,6 +22,14 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("error.html"), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
