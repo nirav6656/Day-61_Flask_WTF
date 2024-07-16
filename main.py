@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField
 from wtforms.validators import DataRequired
 from wtforms.validators import ValidationError
+from flask_bootstrap import Bootstrap4
 '''
 Red underlines? Install the required packages first: 
 Open the Terminal in PyCharm (bottom left). 
@@ -20,6 +21,7 @@ This will install the packages from requirements.txt for this project.
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "my secret key"
 
+bootstrap = Bootstrap4(app)
 def is_8(form, field):
     if len(field.data) < 8:
         raise ValidationError('Must be 8')
@@ -47,6 +49,8 @@ def login():
         email = form.email.data
         form.email.data = ''
         return render_template('success.html')
+
+
 
     return render_template('login.html', email=email,submit = submit, password = password,form=form)
 
